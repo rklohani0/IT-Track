@@ -1,0 +1,16 @@
+{
+  "name": "it-track-website",
+  "version": "1.0.0",
+  "description": "IT Track Computer Center — 3D Website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["it-track", "computer-center", "3d-website", "education"],
+  "author": "IT Track",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

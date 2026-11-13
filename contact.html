@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us — IT Track Computer Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* === Contact Page Specific Styles === */
+        .contact-page {
+            min-height: 100vh;
+            padding: 120px 2rem 60px;
+            position: relative;
+        }
+
+        .contact-page-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .contact-page-header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .contact-page-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .contact-main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: start;
+        }
+
+        /* Left Column — Info Cards */
+        .contact-left {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius);
+            padding: 1.5rem 1.8rem;
+            backdrop-filter: blur(15px);
+            transition: var(--transition);
+            transform-style: preserve-3d;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px) rotateX(2deg);
+            border-color: rgba(0, 240, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.1);
+        }
+
+        .info-card .icon-box {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--bg-dark);
+            background: var(--gradient-1);
+            border-radius: 14px;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .info-card:hover .icon-box {
+            transform: rotateY(180deg);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+        }
+
+        .info-card .info-text h4 {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .info-card .info-text p {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        .info-card .info-text a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .info-card .info-text a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Map Placeholder */
+        .map-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius);
+            overflow: hidden;
+            height: 200px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(15px);
+        }
+
+        .map-card iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(1) invert(1) contrast(0.8) brightness(0.6);
+            opacity: 0.5;
+        }
+
+        .map-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 8px;
+            background: rgba(10, 10, 26, 0.7);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .map-overlay i {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        /* Social Links Row */
+        .contact-social {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .contact-social a {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .contact-social a:hover {
+            background: var(--gradient-1);
+            color: var(--bg-dark);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
+            border-color: transparent;
+        }
+
+        /* Right Column — Form */
+        .contact-form-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-form-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: var(--gradient-1);
+        }
+
+        .contact-form-card h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-form-card .form-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-field {
+            position: relative;
+            margin-bottom: 1.2rem;
+        }
+
+        .form-field label {
+            display: block;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .form-field input,
+        .form-field select,
+        .form-field textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-family: 'Space Grotesk', sans-serif;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .form-field select option {
+            background: var(--bg-dark);
+            color: var(--text-primary);
+        }
+
+        .form-field input:focus,
+        .form-field select:focus,
+        .form-field textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+            background: rgba(0, 240, 255, 0.03);
+        }
+
+        .form-field input::placeholder,
+        .form-field textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .submit-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px 32px;
+            background: var(--gradient-1);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+            cursor: pointer;
+            transition: var(--transition);
+            letter-spacing: 1px;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
+            margin-top: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 0 50px rgba(0, 240, 255, 0.5);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        .submit-btn.success {
+            background: linear-gradient(135deg, #39ff14, #00f0ff);
+        }
+
+        /* Success Popup */
+        .success-popup {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 26, 0.85);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .success-popup.show {
+            display: flex;
+        }
+
+        .success-box {
+            background: var(--bg-card);
+            border: 1px solid rgba(57, 255, 20, 0.3);
+            border-radius: var(--radius);
+            padding: 3rem 2.5rem;
+            text-align: center;
+            max-width: 420px;
+            animation: fadeInUp 0.5s ease;
+            box-shadow: 0 0 50px rgba(57, 255, 20, 0.1);
+        }
+
+        .success-box .success-icon {
+            width: 80px; height: 80px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #39ff14;
+            background: rgba(57, 255, 20, 0.1);
+            border-radius: 50%;
+            border: 2px solid rgba(57, 255, 20, 0.3);
+        }
+
+        .success-box h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .success-box p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .success-box .close-popup-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            background: var(--gradient-1);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+            transition: var(--transition);
+        }
+
+        .success-box .close-popup-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+        }
+
+        /* Footer mini */
+        .contact-footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-glass);
+        }
+
+        .contact-footer p {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        .contact-footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .contact-main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Three.js Background -->
+    <canvas id="bg-canvas"></canvas>
+    <div id="particles-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <div class="logo-3d">
+                    <span class="logo-icon"><i class="fas fa-microchip"></i></span>
+                    <span class="logo-text">IT<span class="logo-highlight">Track</span></span>
+                </div>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#courses" class="nav-link">Courses</a></li>
+                <li><a href="index.html#features" class="nav-link">Why Us</a></li>
+                <li><a href="contact.html" class="nav-link active">Contact</a></li>
+            </ul>
+            <a href="#contact-form" class="nav-cta">Send Message <i class="fas fa-arrow-right"></i></a>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Page -->
+    <section class="contact-page">
+        <div class="contact-page-header">
+            <span class="section-tag"><i class="fas fa-envelope"></i> Contact Us</span>
+            <h1>Let's Start Your <span class="gradient-text">Tech Journey</span></h1>
+            <p>Have questions about our courses? Want to enroll? Reach out to us and we'll get back to you within 24 hours.</p>
+        </div>
+
+        <div class="contact-main-grid">
+            <!-- Left: Contact Info -->
+            <div class="contact-left">
+                <div class="info-card">
+                    <div class="icon-box"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="info-text">
+                        <h4>Our Location</h4>
+                        <p>IT Track Computer Center<br>Main Road, City, Pakistan</p>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="icon-box"><i class="fas fa-phone-alt"></i></div>
+                    <div class="info-text">
+                        <h4>Phone Number</h4>
+                        <p><a href="tel:+923001234567">+92 300 1234567</a></p>
+                        <p><a href="tel:+923001234568">+92 300 1234568</a></p>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="icon-box"><i class="fas fa-envelope"></i></div>
+                    <div class="info-text">
+                        <h4>Email Address</h4>
+                        <p><a href="mailto:info@ittrack.com">info@ittrack.com</a></p>
+                        <p><a href="mailto:admissions@ittrack.com">admissions@ittrack.com</a></p>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="icon-box"><i class="fas fa-clock"></i></div>
+                    <div class="info-text">
+                        <h4>Working Hours</h4>
+                        <p>Monday – Saturday: 9:00 AM – 8:00 PM<br>Sunday: Closed</p>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="icon-box"><i class="fab fa-whatsapp"></i></div>
+                    <div class="info-text">
+                        <h4>WhatsApp</h4>
+                        <p><a href="https://wa.me/923001234567">Chat with us on WhatsApp</a></p>
+                    </div>
+                </div>
+
+                <!-- Social Links -->
+                <div class="contact-social">
+                    <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+
+                <!-- Map -->
+                <div class="map-card">
+                    <div class="map-overlay">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <span>IT Track Computer Center — Main Road</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Contact Form -->
+            <div class="contact-form-card" id="contact-form">
+                <h3>📩 Send Us a Message</h3>
+                <p class="form-subtitle">Fill in the details below and we'll reach out to you shortly.</p>
+
+                <form id="contactForm">
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>Full Name *</label>
+                            <input type="text" name="name" placeholder="e.g. Ahmed Khan" required>
+                        </div>
+                        <div class="form-field">
+                            <label>Email Address *</label>
+                            <input type="email" name="email" placeholder="e.g. ahmed@email.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>Phone Number</label>
+                            <input type="tel" name="phone" placeholder="e.g. +92 300 1234567">
+                        </div>
+                        <div class="form-field">
+                            <label>Select Course *</label>
+                            <select name="course" required>
+                                <option value="" disabled selected>Choose a course...</option>
+                                <option value="CIT">CIT — Certificate in IT</option>
+                                <option value="DIT">DIT — Diploma in IT</option>
+                                <option value="Agentic AI">Agentic AI</option>
+                                <option value="MS Office">MS Office</option>
+                                <option value="Python">Python Programming</option>
+                                <option value="Dart">Dart & Flutter</option>
+                                <option value="AI">AI & Machine Learning</option>
+                                <option value="YouTube Automation">YouTube Automation</option>
+                                <option value="Prompt Engineering">Prompt Engineering</option>
+                                <option value="CSS + JavaScript">CSS + JavaScript</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Your Message</label>
+                        <textarea name="message" rows="5" placeholder="Tell us what you'd like to know or any questions..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span>Send Message</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="contact-footer">
+            <p>&copy; 2026 <a href="index.html">IT Track Computer Center</a>. All Rights Reserved. | Designed with ❤️ and 3D Magic</p>
+        </div>
+    </section>
+
+    <!-- Success Popup -->
+    <div class="success-popup" id="successPopup">
+        <div class="success-box">
+            <div class="success-icon"><i class="fas fa-check"></i></div>
+            <h3>Message Sent! 🎉</h3>
+            <p>Thank you for reaching out to IT Track! Our team will contact you within 24 hours. Get ready to start your tech journey!</p>
+            <button class="close-popup-btn" id="closePopup">
+                <i class="fas fa-arrow-left"></i> Back to Form
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // === Contact Form Submit ===
+        const form = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const popup = document.getElementById('successPopup');
+        const closePopup = document.getElementById('closePopup');
+
+        if (form) {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                // Button animation
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Sending...</span>';
+                submitBtn.disabled = true;
+
+                setTimeout(() => {
+                    submitBtn.innerHTML = '<i class="fas fa-check"></i> <span>Sent!</span>';
+                    submitBtn.classList.add('success');
+
+                    // Show popup
+                    popup.classList.add('show');
+
+                    // Reset after delay
+                    setTimeout(() => {
+                        submitBtn.innerHTML = '<span>Send Message</span> <i class="fas fa-paper-plane"></i>';
+                        submitBtn.classList.remove('success');
+                        submitBtn.disabled = false;
+                        form.reset();
+                    }, 2000);
+                }, 1500);
+            });
+        }
+
+        if (closePopup) {
+            closePopup.addEventListener('click', () => {
+                popup.classList.remove('show');
+            });
+        }
+
+        // Close popup on outside click
+        if (popup) {
+            popup.addEventListener('click', (e) => {
+                if (e.target === popup) popup.classList.remove('show');
+            });
+        }
+    </script>
+</body>
+</html>
